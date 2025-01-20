@@ -1,0 +1,5 @@
+- Add GUI for visualizing keystrokes, for each day.
+- Change logging to .json file.
+- Convert GUI to a proper app.
+- Separate tab for viewing combined keystrokes.
+- Start application on computer startup.
