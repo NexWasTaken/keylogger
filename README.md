@@ -1,6 +1,6 @@
 # ⌨️ KeyLogger
 
-<img src="image.png" alt="Alt text" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);">
+<img src="image.png" alt="GUI Image">
 
 A simple keystroke logger with a easy to use GUI.
 
