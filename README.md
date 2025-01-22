@@ -1,6 +1,8 @@
 # ⌨️ KeyLogger
 
-<img src="image.png" alt="GUI Image">
+<p align="center">
+    <img src="image.png" alt="GUI Image">
+</p>
 
 A simple keystroke logger with a easy to use GUI.
 
